@@ -1,11 +1,10 @@
 let display = document.querySelector('.display')
+let eval = [];
+let currentValue = 0;
+let operatorClicked = false;
 main();
 
 function main() {
-    //let eval = [0];
-    //operate(eval);
-    let currentValue = 0;
-
     const zeroButton = document.querySelector(".button-0");
     zeroButton.addEventListener('click', function (){
         input(0);
@@ -73,14 +72,66 @@ function main() {
 }
 
 function input(clicked){
-    console.log(display.textContent);
-    if (display.textContent === '0') {
-        display.textContent = clicked;
+    if(isNaN(clicked)){
+        switch(clicked){
+            case '+':
+                operatorClicked = true;
+                if(eval.length > 1){
+                    display.textContent = operate(Number(display.textContent));                    
+                    eval.push('+');
+                    display.textContent = eval[0];
+                }
+                else{
+                    eval.push(Number(display.textContent));
+                    eval.push('+');
+                }
+                break;
+            case '-':
+                
+                break;
+            case '*':
+
+                break;
+            case '/':
+               
+                break;
+        }
     }
-    else {
-        display.textContent += clicked;
+    else{
+        if (display.textContent === '0') {
+            display.textContent = clicked;
+        }
+        else if (operatorClicked){
+            display.textContent = clicked;
+            operatorClicked = false;
+        }
+        else {
+            display.textContent += clicked;
+        }
     }
-    currentValue = Number(display.textContent);
-    console.log("currentValue = " + currentValue);
+
+}
+
+function operate(operand){
+    answer = undefined;
+    switch (eval[1]){
+        case '+':
+            answer = eval[0] + operand;
+            eval.length = 0;
+            eval[0] = answer;
+            return answer;
+        case '-':
+            answer = eval[0] - operand;
+            eval.length = 0;
+            eval[0] = answer;
+        case '*':
+            answer = eval[0] * operand;
+            eval.length = 0;
+            eval[0] = answer;
+        case '/':
+            answer = eval[0] / operand;
+            eval.length = 0;
+            eval[0] = answer;
+    }
 }
 

@@ -94,19 +94,48 @@ function add(op1, op2){
 }
 
 function subtract(op1, op2){
-    return op1 - op2;
+    if(operator2 != undefined){        
+        operator1 = operator2;
+        operator2 = undefined;
+        operand1 = op1 - op2;
+        return operand1;
+    }
+    else{
+        operand1 = op1 - op2;
+        return operand1;
+    }
 }
 
 function multiply(op1, op2){
-    return op1 * op2;
+    if(operator2 != undefined){        
+        operator1 = operator2;
+        operator2 = undefined;
+        operand1 = op1 * op2;
+        return operand1;
+    }
+    else{
+        operand1 = op1 * op2;
+        return operand1;
+    }
 }
 
 function divide(op1, op2){
     if(op2 === 0){
+        operand1 = undefined;
+        operand2 = undefined;
+        operator1 = undefined;
+        operator2 = undefined;
         return "Stop that!";
     }
+    if(operator2 != undefined){        
+        operator1 = operator2;
+        operator2 = undefined;
+        operand1 = op1 / op2;
+        return operand1;
+    }
     else{
-        return op1 / op2;
+        operand1 = op1 / op2;
+        return operand1;
     }
 }
 

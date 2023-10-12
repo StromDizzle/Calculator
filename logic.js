@@ -1,6 +1,8 @@
-let display = document.querySelector('.display')
-let eval = [];
-let currentValue = 0;
+let display = document.querySelector('.display');
+let displayValue = 0;
+let operand1 = undefined;
+let operand2 = undefined;
+let operator = undefined;
 let operatorClicked = false;
 main();
 
@@ -48,38 +50,127 @@ function main() {
     const addButton = document.querySelector(".button-add");
     addButton.addEventListener('click', function (){
         input('+');
+        operatorClicked = true;
     })
     const subtractButton = document.querySelector(".button-subtract");
     subtractButton.addEventListener('click', function (){
         input('-');
+        operatorClicked = true;
     })
     const multiplyButton = document.querySelector(".button-multiply");
     multiplyButton.addEventListener('click', function (){
         input('*');
+        operatorClicked = true;
     })
     const divideButton = document.querySelector(".button-divide");
     divideButton.addEventListener('click', function (){
         input('/');
+        operatorClicked = true;
     })
     const clearButton = document.querySelector(".button-clear");
     clearButton.addEventListener('click', function (){
-        input('C');
+        clear();
     })
     const equalsButton = document.querySelector(".button-equals");
     equalsButton.addEventListener('click', function (){
-        console.log("equals pressed");
+        operand2 = displayValue;
+        operate(operand1, operand2, operator);
     })
 }
 
+function add(op1, op2){
+    return op1 + op2;
+}
+
+function subtract(op1, op2){
+    return op1 - op2;
+}
+
+function multiply(op1, op2){
+    return op1 * op2;
+}
+
+function divide(op1, op2){
+    if(op2 === 0){
+        return "Stop that!";
+    }
+    else{
+        return op1 / op2;
+    }
+}
+
+function operate(op1, op2, operator){
+    switch(operator){
+        case '+':
+            display.textContent = add(op1, op2);
+            displayValue = display.textContent;
+            break;
+        case '-':
+            display.textContent = subtract(op1, op2);
+            displayValue = display.textContent;
+            break;
+        case '*':
+            display.textContent = multiply(op1, op2);
+            displayValue = display.textContent;
+            break;
+        case '/':
+            display.textContent = divide(op1, op2);
+            displayValue = display.textContent;
+            break;
+    }
+}
+
 function input(clicked){
+    if(!isNaN(clicked)){
+        if (displayValue === 0){
+            display.textContent = clicked;
+            displayValue = Number(display.textContent);
+        }
+        else if(operatorClicked){
+            display.textContent = clicked;
+            displayValue = clicked;
+            operatorClicked = false;
+        }
+        else{
+            display.textContent += clicked;
+            displayValue = Number(display.textContent);
+        }
+    }
+    else{
+        operand1 = displayValue;
+        operator = clicked;
+    }
+}
+
+function clear(){
+    displayValue = 0;
+    operand1 = undefined;
+    operand2 = undefined;
+    display.textContent = 0;
+}
+
+
+
+
+
+
+
+
+
+
+/*function input(clicked){
     if(isNaN(clicked)){
+        if(operatorClicked){
+            eval[1] = clicked;
+            return;
+        }
         switch(clicked){
             case '+':
                 operatorClicked = true;
                 if(eval.length > 1){
-                    display.textContent = operate(Number(display.textContent));                    
+                    eval.push(Number(display.textContent));
+                    display.textContent = operate();                    
                     eval.push('+');
-                    display.textContent = eval[0];
                 }
                 else{
                     eval.push(Number(display.textContent));
@@ -87,13 +178,40 @@ function input(clicked){
                 }
                 break;
             case '-':
-                
+                operatorClicked = true;
+                if(eval.length > 1){
+                    eval.push(Number(display.textContent));
+                    display.textContent = operate();                    
+                    eval.push('-');
+                }
+                else{
+                    eval.push(Number(display.textContent));
+                    eval.push('-');
+                }
                 break;
             case '*':
-
+                operatorClicked = true;
+                if(eval.length > 1){
+                    eval.push(Number(display.textContent));
+                    display.textContent = operate();                    
+                    eval.push('*');
+                }
+                else{
+                    eval.push(Number(display.textContent));
+                    eval.push('*');
+                }
                 break;
             case '/':
-               
+                operatorClicked = true;
+                if(eval.length > 1){
+                    eval.push(Number(display.textContent));
+                    display.textContent = operate();
+                    eval.push('/');
+                }
+                else{
+                    eval.push(Number(display.textContent));
+                    eval.push('/');
+                }
                 break;
         }
     }
@@ -112,26 +230,46 @@ function input(clicked){
 
 }
 
-function operate(operand){
+function operate(){
     answer = undefined;
     switch (eval[1]){
         case '+':
-            answer = eval[0] + operand;
+            answer = eval[0] + eval[2];
             eval.length = 0;
             eval[0] = answer;
             return answer;
         case '-':
-            answer = eval[0] - operand;
+            answer = eval[0] - eval[2];
             eval.length = 0;
             eval[0] = answer;
+            return answer;
         case '*':
-            answer = eval[0] * operand;
+            answer = eval[0] * eval[2];
             eval.length = 0;
             eval[0] = answer;
+            return answer;
         case '/':
-            answer = eval[0] / operand;
+            if(eval[2] === 0){
+                eval.length = 0;
+                return "pls don't do that >:(";
+            }
+            answer = eval[0] / eval[2];
             eval.length = 0;
             eval[0] = answer;
+            return answer;
     }
 }
 
+function clear(){
+    eval.length = 0;
+    display.textContent = 0;
+}
+
+function updateDisplay(value){
+    if(value > 99999999){
+        display.textContent = value.toExponential();
+    }
+    else{
+        display.textContent = value;
+    }
+}*/

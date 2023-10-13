@@ -76,7 +76,13 @@ function main() {
     const equalsButton = document.querySelector(".button-equals");
     equalsButton.addEventListener('click', function (){
         operand2 = displayValue;
+        if(isNaN(lastClicked)){
+            operand2 = undefined;
+            return;
+        }
         operate(operand1, operand2, operator1);
+        operand2 = undefined;
+        operator1 = undefined;
     })
 }
 
@@ -142,19 +148,19 @@ function divide(op1, op2){
 function operate(op1, op2, symbol){
     switch(symbol){
         case '+':
-            display.textContent = add(op1, op2);
+            updateDisplay(add(op1, op2));
             displayValue = Number(display.textContent);
             break;
         case '-':
-            display.textContent = subtract(op1, op2);
+            updateDisplay(subtract(op1, op2));
             displayValue = Number(display.textContent);
             break;
         case '*':
-            display.textContent = multiply(op1, op2);
+            updateDisplay(multiply(op1, op2));
             displayValue = Number(display.textContent);
             break;
         case '/':
-            display.textContent = divide(op1, op2);
+            updateDisplay(divide(op1, op2));
             displayValue = Number(display.textContent);
             break;
     }
@@ -165,11 +171,11 @@ function operate(op1, op2, symbol){
 function input(clicked){
     if(!isNaN(clicked)){
         if (displayValue === 0){
-            display.textContent = clicked;
-            displayValue = Number(display.textContent);
+            updateDisplay(clicked);
+            displayValue = clicked;
         }
         else if(operatorClicked){
-            display.textContent = clicked;
+            updateDisplay(clicked);
             displayValue = clicked;
             operatorClicked = false;
         }
@@ -206,6 +212,14 @@ function clear(){
     operand2 = undefined;
     operator1 = undefined;
     operator2 = undefined;
-    display.textContent = 0;
+    updateDisplay(0);
 }
 
+function updateDisplay(value){
+    if(value > 999999999){
+        display.textContent = value.toExponential(4);
+    }
+    else{
+        display.textContent = value;
+    }
+}

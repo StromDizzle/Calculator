@@ -17,10 +17,6 @@ button {
     justify-content: space-between;
 }
 
-.button-row-1 button {
-    width: 36.5px;
-}
-
 .header {
     background: navy;
     color: white;
@@ -31,7 +27,7 @@ button {
     border-style: solid;
     border-color: darkgray;
     font-size: 40px;
-    width: 158px;
+    width: 212px;
 }
 
 .buttons {

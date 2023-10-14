@@ -170,6 +170,9 @@ function operate(op1, op2, symbol){
 
 function input(clicked){
     if(!isNaN(clicked)){
+        if(displayValue >= 1000000000){
+            return;
+        }
         if (displayValue === 0){
             updateDisplay(clicked);
             displayValue = clicked;
@@ -219,7 +222,13 @@ function updateDisplay(value){
     if(value > 999999999){
         display.textContent = value.toExponential(4);
     }
-    else{
+    else if(value % 1 === 0){
         display.textContent = value;
+    }
+    else if(value > 999999){
+        display.textContent = value.toExponential(4);
+    }
+    else{
+        display.textContent = parseFloat(value.toFixed(4));
     }
 }
